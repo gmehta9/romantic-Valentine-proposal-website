@@ -39,6 +39,7 @@
 
         html, body {
             height: 100%;
+            cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text y="24" font-size="24">💕</text></svg>') 16 16, auto;
         }
 
         body {
@@ -801,6 +802,28 @@
         }
 
         /* ============================================
+           CURSOR HEART TRAIL
+        ============================================ */
+        .cursor-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 20px;
+            animation: cursorHeartFade 1s ease-out forwards;
+        }
+
+        @keyframes cursorHeartFade {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5) translateY(-40px) rotate(20deg);
+            }
+        }
+
+        /* ============================================
            RESPONSIVE
         ============================================ */
         @media (max-width: 600px) {
@@ -1219,6 +1242,26 @@
         }
 
         /**
+         * Create cursor heart trail
+         */
+        let lastTrailTime = 0;
+        function createCursorTrail(x, y) {
+            const now = Date.now();
+            if (now - lastTrailTime < 80) return;
+            lastTrailTime = now;
+
+            const hearts = ['💕', '💖', '❤️', '✨', '💗'];
+            const heart = document.createElement('div');
+            heart.className = 'cursor-heart';
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = `${x}px`;
+            heart.style.top = `${y}px`;
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 1000);
+        }
+
+        /**
          * Create ripple
          */
         function createRipple(x, y) {
@@ -1264,6 +1307,7 @@
 
             document.addEventListener('mousemove', (e) => {
                 handlePointerMove(e.clientX, e.clientY);
+                createCursorTrail(e.clientX, e.clientY);
             });
 
             document.addEventListener('touchmove', (e) => {
