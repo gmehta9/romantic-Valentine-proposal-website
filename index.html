@@ -430,10 +430,13 @@
             margin: 15px 0 25px;
             font-style: italic;
             opacity: 0;
-            animation: fadeIn 1s ease 2.5s forwards;
             cursor: pointer;
-            transition: all 0.3s ease;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .subtitle.visible {
+            opacity: 1;
         }
 
         .subtitle:hover {
@@ -441,14 +444,16 @@
             transform: scale(1.05);
         }
 
-        .subtitle.changing {
-            animation: taglineChange 0.5s ease;
+        .subtitle.fade-out {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        @keyframes taglineChange {
-            0% { opacity: 1; transform: translateY(0); }
-            50% { opacity: 0; transform: translateY(-10px); }
-            100% { opacity: 1; transform: translateY(0); }
+        .subtitle.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         @keyframes fadeIn {
@@ -961,7 +966,12 @@
         /**
          * Change tagline with animation
          */
+        let isChangingTagline = false;
+
         function changeTagline() {
+            if (isChangingTagline) return;
+            isChangingTagline = true;
+
             const taglineEl = document.getElementById('tagline');
 
             // Get a new random index (different from current)
@@ -972,18 +982,17 @@
 
             currentTaglineIndex = newIndex;
 
-            // Add animation class
-            taglineEl.classList.add('changing');
+            // Fade out
+            taglineEl.classList.remove('fade-in');
+            taglineEl.classList.add('fade-out');
 
-            // Change text at the midpoint of animation
+            // Change text and fade in
             setTimeout(() => {
                 taglineEl.textContent = `"${taglines[currentTaglineIndex]}"`;
-            }, 250);
-
-            // Remove animation class
-            setTimeout(() => {
-                taglineEl.classList.remove('changing');
-            }, 500);
+                taglineEl.classList.remove('fade-out');
+                taglineEl.classList.add('fade-in');
+                isChangingTagline = false;
+            }, 300);
         }
 
         /**
@@ -992,6 +1001,10 @@
         function setRandomTagline() {
             const taglineEl = document.getElementById('tagline');
             taglineEl.textContent = `"${taglines[currentTaglineIndex]}"`;
+            // Show after initial delay
+            setTimeout(() => {
+                taglineEl.classList.add('visible', 'fade-in');
+            }, 2500);
         }
 
         /**
@@ -1303,9 +1316,11 @@
             // Set default background
             setBackground(DEFAULT_BG);
 
-            // Set random tagline and start rotation
+            // Set random tagline and start rotation after delay
             setRandomTagline();
-            startTaglineRotation();
+            setTimeout(() => {
+                startTaglineRotation();
+            }, 3000);
 
             // Create visual elements
             createStars();
