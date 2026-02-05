@@ -431,6 +431,23 @@
             font-style: italic;
             opacity: 0;
             animation: fadeIn 1s ease 2.5s forwards;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subtitle:hover {
+            color: var(--color-secondary);
+            transform: scale(1.05);
+        }
+
+        .subtitle.changing {
+            animation: taglineChange 0.5s ease;
+        }
+
+        @keyframes taglineChange {
+            0% { opacity: 1; transform: translateY(0); }
+            50% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeIn {
@@ -782,7 +799,7 @@
             <div class="main-content" id="mainContent">
                 <div class="heart-icon">💝</div>
                 <h1 class="title" id="title"><span class="cursor"></span></h1>
-                <p class="subtitle">"You are my Player 2 forever"</p>
+                <p class="subtitle" id="tagline" onclick="changeTagline()" title="Click for more!">"You are my Player 2 forever"</p>
 
                 <div class="love-meter">
                     <div class="love-meter-label">
@@ -858,8 +875,43 @@
             "PLEASE?", "NEVER!", "NICE TRY!"
         ];
 
+        // Cute taglines - click to change!
+        const taglines = [
+            "You are my Player 2 forever",
+            "You stole my heart, but I'll let you keep it",
+            "You're the reason I look at my phone and smile",
+            "My heart does a little dance when I see you",
+            "You're my favorite notification",
+            "I love you more than pizza... and that's saying a lot",
+            "You're the cheese to my macaroni",
+            "Together is my favorite place to be",
+            "You make my heart skip a WiFi signal",
+            "I'm so glad I swiped right on you",
+            "You're my sunshine on a cloudy day",
+            "Life is better with you in it",
+            "You had me at 'Hello World'",
+            "I love you to the moon and back",
+            "You're my happily ever after",
+            "Every love song makes sense with you",
+            "You're the peanut butter to my jelly",
+            "My heart chose you",
+            "You're my favorite hello and hardest goodbye",
+            "I fall for you more every day",
+            "You're my home, wherever you are",
+            "Loving you is my favorite thing to do",
+            "You make ordinary moments extraordinary",
+            "You're worth every mile between us",
+            "My heart found its missing piece in you",
+            "You're my today and all of my tomorrows",
+            "I didn't choose you, my heart did",
+            "You're the best thing I never planned",
+            "With you, forever doesn't seem long enough",
+            "You're my 11:11 wish come true"
+        ];
+
         let escapeCount = 0;
         let isEnvelopeOpen = false;
+        let currentTaglineIndex = Math.floor(Math.random() * taglines.length);
 
         /**
          * Background functions
@@ -903,6 +955,42 @@
 
         function hideFloatingInput() {
             floatingInput.classList.add('hidden');
+        }
+
+        /**
+         * Change tagline with animation
+         */
+        function changeTagline() {
+            const taglineEl = document.getElementById('tagline');
+
+            // Get a new random index (different from current)
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * taglines.length);
+            } while (newIndex === currentTaglineIndex && taglines.length > 1);
+
+            currentTaglineIndex = newIndex;
+
+            // Add animation class
+            taglineEl.classList.add('changing');
+
+            // Change text at the midpoint of animation
+            setTimeout(() => {
+                taglineEl.textContent = `"${taglines[currentTaglineIndex]}"`;
+            }, 250);
+
+            // Remove animation class
+            setTimeout(() => {
+                taglineEl.classList.remove('changing');
+            }, 500);
+        }
+
+        /**
+         * Set random tagline on load
+         */
+        function setRandomTagline() {
+            const taglineEl = document.getElementById('tagline');
+            taglineEl.textContent = `"${taglines[currentTaglineIndex]}"`;
         }
 
         /**
@@ -1194,6 +1282,9 @@
         function init() {
             // Set default background
             setBackground(DEFAULT_BG);
+
+            // Set random tagline
+            setRandomTagline();
 
             // Create visual elements
             createStars();
