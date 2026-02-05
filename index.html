@@ -994,6 +994,22 @@
         }
 
         /**
+         * Auto-change tagline every 5 seconds
+         */
+        let taglineInterval;
+        function startTaglineRotation() {
+            taglineInterval = setInterval(() => {
+                changeTagline();
+            }, 5000);
+        }
+
+        function stopTaglineRotation() {
+            if (taglineInterval) {
+                clearInterval(taglineInterval);
+            }
+        }
+
+        /**
          * Create stars
          */
         function createStars() {
@@ -1260,6 +1276,9 @@
             // Hide No button
             noBtn.classList.add('hidden');
 
+            // Stop tagline rotation
+            stopTaglineRotation();
+
             // Show success
             mainContent.style.display = 'none';
             successScreen.classList.add('active');
@@ -1283,8 +1302,9 @@
             // Set default background
             setBackground(DEFAULT_BG);
 
-            // Set random tagline
+            // Set random tagline and start rotation
             setRandomTagline();
+            startTaglineRotation();
 
             // Create visual elements
             createStars();
