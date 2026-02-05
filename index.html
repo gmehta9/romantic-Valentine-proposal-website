@@ -54,150 +54,62 @@
         }
 
         /* ============================================
-           SETUP SCREEN
+           FLOATING BG INPUT
         ============================================ */
-        .setup-screen {
+        .floating-input {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 200;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
         }
 
-        .setup-screen.hidden {
+        .floating-input:hover,
+        .floating-input:focus-within {
+            opacity: 1;
+        }
+
+        .floating-input.hidden {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
         }
 
-        .setup-box {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 40px 50px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-            max-width: 450px;
-            width: 90%;
-            border: 4px solid var(--color-primary);
-            animation: pixelBounce 0.6s var(--transition-bounce);
-        }
-
-        @keyframes pixelBounce {
-            0% { transform: scale(0) rotate(-10deg); }
-            60% { transform: scale(1.1) rotate(2deg); }
-            100% { transform: scale(1) rotate(0deg); }
-        }
-
-        .setup-title {
-            font-family: var(--font-minecraft);
-            font-size: 1.1rem;
-            color: var(--color-secondary);
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
-            line-height: 1.6;
-        }
-
-        .setup-subtitle {
-            font-family: var(--font-pixel);
-            font-size: 1.2rem;
-            color: var(--color-text-light);
-            margin-bottom: 25px;
-        }
-
-        .setup-heart {
-            font-size: 50px;
-            animation: heartFloat 2s ease-in-out infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes heartFloat {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-10px) scale(1.1); }
-        }
-
-        .setup-input-group {
-            margin-bottom: 20px;
-        }
-
-        .setup-label {
-            font-family: var(--font-minecraft);
-            font-size: 0.6rem;
-            color: var(--color-text);
-            display: block;
-            margin-bottom: 10px;
-            text-align: left;
-        }
-
-        .setup-input {
-            width: 100%;
-            padding: 14px 18px;
-            border: 3px solid #ddd;
-            border-radius: 10px;
-            font-family: var(--font-body);
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        .setup-input:focus {
-            border-color: var(--color-primary);
-            box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.2);
-        }
-
-        .setup-input::placeholder {
-            color: #aaa;
-            font-style: italic;
-        }
-
-        .setup-hint {
-            font-size: 0.75rem;
-            color: #999;
-            margin-top: 8px;
-            text-align: left;
-        }
-
-        .setup-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .setup-btn {
-            flex: 1;
-            padding: 14px 20px;
-            border: none;
-            border-radius: 10px;
-            font-family: var(--font-minecraft);
-            font-size: 0.65rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-        }
-
-        .setup-btn-primary {
-            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+        .floating-input input {
+            width: 320px;
+            max-width: 90vw;
+            padding: 12px 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
             color: white;
-            box-shadow: 0 4px 15px rgba(196, 69, 105, 0.4);
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            outline: none;
+            transition: all 0.3s ease;
         }
 
-        .setup-btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(196, 69, 105, 0.5);
+        .floating-input input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
 
-        .setup-btn-secondary {
-            background: #f0f0f0;
-            color: var(--color-text);
+        .floating-input input:focus {
+            border-color: var(--color-primary);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
         }
 
-        .setup-btn-secondary:hover {
-            background: #e0e0e0;
+        .floating-input .hint {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
         }
 
         /* ============================================
@@ -318,13 +230,6 @@
             z-index: 100;
             background: transparent;
             transition: opacity 0.8s ease, visibility 0.8s ease;
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .envelope-container.visible {
-            opacity: 1;
-            visibility: visible;
         }
 
         .envelope-container.hidden {
@@ -839,29 +744,14 @@
     </style>
 </head>
 <body>
-    <!-- Setup Screen -->
-    <div class="setup-screen" id="setupScreen">
-        <div class="setup-box">
-            <div class="setup-heart">💝</div>
-            <h1 class="setup-title">Valentine Setup</h1>
-            <p class="setup-subtitle">Customize your proposal!</p>
-
-            <div class="setup-input-group">
-                <label class="setup-label">Background Image URL (Optional)</label>
-                <input
-                    type="url"
-                    class="setup-input"
-                    id="bgInput"
-                    placeholder="https://example.com/your-image.jpg"
-                >
-                <p class="setup-hint">Leave empty for default starry night background</p>
-            </div>
-
-            <div class="setup-buttons">
-                <button class="setup-btn setup-btn-secondary" onclick="skipSetup()">Skip</button>
-                <button class="setup-btn setup-btn-primary" onclick="startWithBg()">Start!</button>
-            </div>
-        </div>
+    <!-- Floating Background Input -->
+    <div class="floating-input" id="floatingInput">
+        <input
+            type="url"
+            id="bgInput"
+            placeholder="Paste your background image URL here..."
+        >
+        <span class="hint">Optional: Enter image URL & press Enter</span>
     </div>
 
     <!-- Starry Background -->
@@ -935,7 +825,7 @@
          */
 
         // DOM Elements
-        const setupScreen = document.getElementById('setupScreen');
+        const floatingInput = document.getElementById('floatingInput');
         const envelopeContainer = document.getElementById('envelopeContainer');
         const cardWrapper = document.getElementById('cardWrapper');
         const yesBtn = document.getElementById('yesBtn');
@@ -970,50 +860,49 @@
 
         let escapeCount = 0;
         let isEnvelopeOpen = false;
-        let hasCustomBg = false;
 
         /**
-         * Setup functions
+         * Background functions
          */
-        function skipSetup() {
-            setBackground(DEFAULT_BG);
-            hideSetup();
-        }
-
-        function startWithBg() {
-            const url = bgInput.value.trim();
-            if (url) {
-                testImage(url).then(valid => {
-                    setBackground(valid ? url : DEFAULT_BG);
-                    hideSetup();
-                });
-            } else {
-                setBackground(DEFAULT_BG);
-                hideSetup();
-            }
-        }
-
         function testImage(url) {
             return new Promise(resolve => {
                 const img = new Image();
                 img.onload = () => resolve(true);
                 img.onerror = () => resolve(false);
                 img.src = url;
-                // Timeout after 5 seconds
                 setTimeout(() => resolve(false), 5000);
             });
         }
 
         function setBackground(url) {
             customBg.style.backgroundImage = `url('${url}')`;
-            hasCustomBg = url !== DEFAULT_BG;
         }
 
-        function hideSetup() {
-            setupScreen.classList.add('hidden');
-            envelopeContainer.classList.add('visible');
-            createStars();
-            createFloatingElements();
+        function applyCustomBg() {
+            const url = bgInput.value.trim();
+            if (url) {
+                testImage(url).then(valid => {
+                    if (valid) {
+                        setBackground(url);
+                        bgInput.style.borderColor = '#4CAF50';
+                        setTimeout(() => {
+                            bgInput.style.borderColor = '';
+                        }, 1000);
+                    } else {
+                        setBackground(DEFAULT_BG);
+                        bgInput.style.borderColor = '#ff6b6b';
+                        bgInput.placeholder = 'Invalid URL - using default';
+                        setTimeout(() => {
+                            bgInput.style.borderColor = '';
+                            bgInput.placeholder = 'Paste your background image URL here...';
+                        }, 2000);
+                    }
+                });
+            }
+        }
+
+        function hideFloatingInput() {
+            floatingInput.classList.add('hidden');
         }
 
         /**
@@ -1094,10 +983,12 @@
             if (isEnvelopeOpen) return;
             isEnvelopeOpen = true;
 
+            // Hide the floating input
+            hideFloatingInput();
+
             createRipple(window.innerWidth / 2, window.innerHeight / 2);
 
             setTimeout(() => {
-                envelopeContainer.classList.remove('visible');
                 envelopeContainer.classList.add('hidden');
                 cardWrapper.classList.add('visible');
                 noBtn.style.opacity = '1';
@@ -1301,6 +1192,13 @@
          * Initialize
          */
         function init() {
+            // Set default background
+            setBackground(DEFAULT_BG);
+
+            // Create visual elements
+            createStars();
+            createFloatingElements();
+
             noBtn.style.opacity = '0';
 
             yesBtn.addEventListener('click', handleYesClick);
@@ -1316,7 +1214,6 @@
             }, { passive: true });
 
             document.addEventListener('click', (e) => {
-                if (!setupScreen.classList.contains('hidden')) return;
                 createRipple(e.clientX, e.clientY);
             });
 
@@ -1336,9 +1233,19 @@
                 }
             });
 
-            // Enter key on input
+            // Background URL input - Enter key to apply
             bgInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') startWithBg();
+                if (e.key === 'Enter') {
+                    applyCustomBg();
+                    bgInput.blur();
+                }
+            });
+
+            // Also apply on blur (when clicking away)
+            bgInput.addEventListener('blur', () => {
+                if (bgInput.value.trim()) {
+                    applyCustomBg();
+                }
             });
         }
 
