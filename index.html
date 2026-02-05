@@ -592,47 +592,56 @@
         }
 
         .btn {
-            padding: 15px 35px;
-            font-family: var(--font-minecraft);
-            font-size: 0.7rem;
+            padding: 16px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: var(--font-body);
             border: none;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s var(--transition-smooth);
             position: relative;
-            text-transform: uppercase;
-            image-rendering: pixelated;
+            letter-spacing: 0.5px;
+            overflow: hidden;
         }
 
+        /* Yes Button - Elegant gradient */
         .btn-yes {
-            background: linear-gradient(180deg, #5a5 0%, #3a3 50%, #5a5 100%);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 50%, #c44569 100%);
             color: white;
-            border: 4px solid #2a2;
-            box-shadow:
-                0 6px 0 #282,
-                0 8px 15px rgba(0,0,0,0.3);
-            text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+            box-shadow: 0 8px 25px rgba(196, 69, 105, 0.4);
+        }
+
+        .btn-yes::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
         }
 
         .btn-yes:hover {
-            transform: translateY(-3px);
-            box-shadow:
-                0 9px 0 #282,
-                0 12px 20px rgba(0,0,0,0.3);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(196, 69, 105, 0.5);
+        }
+
+        .btn-yes:hover::before {
+            left: 100%;
         }
 
         .btn-yes:active {
-            transform: translateY(3px);
-            box-shadow:
-                0 2px 0 #282,
-                0 4px 10px rgba(0,0,0,0.3);
+            transform: translateY(-2px) scale(1.02);
         }
 
+        /* No Button - Soft and subtle */
         .btn-no {
-            background: linear-gradient(180deg, #888 0%, #666 50%, #888 100%);
-            color: white;
-            border: 4px solid #555;
-            box-shadow: 0 6px 0 #444, 0 8px 15px rgba(0,0,0,0.3);
-            text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
+            color: #888;
+            border: 2px solid #ddd;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
             position: fixed;
             z-index: 1000;
             user-select: none;
@@ -640,11 +649,14 @@
                 left 0.25s var(--transition-smooth),
                 top 0.25s var(--transition-smooth),
                 opacity 0.5s ease,
-                transform 0.2s ease;
+                transform 0.3s var(--transition-smooth),
+                box-shadow 0.3s ease;
         }
 
         .btn-no:hover {
             transform: translate(-50%, -50%) scale(1.05);
+            border-color: #ccc;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
         .btn-no.hidden {
